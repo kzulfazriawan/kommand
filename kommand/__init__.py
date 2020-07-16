@@ -1,7 +1,11 @@
+import os
 import sys
 import importlib
+import json
+from colorama import init, Fore, Back, deinit, Style
 
 
+ROOT = os.path.dirname(sys.modules['__main__'].__file__)
 VERSION = '0.1-a'
 INFO = '''
 ____THIZ IZ YOUR KOMMAND!____
@@ -14,9 +18,32 @@ ____THIZ IZ YOUR KOMMAND!____
 '''
 
 
+def build():
+    '''
+    ____it's just build json template, if you prefer using command with json and not bother with
+    dictionary kwargs and stuff____
+    '''
+    init()
+    q = {
+        'name': f'{Fore.CYAN} Your app name: {Style.RESET_ALL}',
+        'version': f'{Fore.CYAN} Your app version: {Style.RESET_ALL}',
+        'command': f'{Back.CYAN} READY FOR COMMAND OFFICER! '
+    }
+    r = {'name': '', 'version': '', 'command': [{'your_command': dict(exec='MYFUNC', help='MYHELP')}]}
+    for k, v in q.items():
+        if k != 'command':
+            r[k] = input(v)
+        else:
+            with open(os.path.join(os.getcwd(), 'command.json'), 'w') as f:
+                json.dump(r, f, indent=4)
+                f.close()
+            print(v)
+    deinit()
+
+
 def control(**kwargs):
     '''
-    ____this is your kommander!. this function is created to manage arguments in CLI, just like apps that needs
+    ____this is your kommand!. this function is created to manage arguments in CLI, just like apps that needs
     arguments in CLI to run some options or modules, for example: python kommand.py test more-test. the script
     will run function that registered on it from first command to second.____
     '''
@@ -49,10 +76,18 @@ def control(**kwargs):
             else:
                 for z in argv:
                     if z in kwargs:
-                        data = kwargs[z]['module'].split('.')
-                        func = getattr(importlib.import_module('.'.join(data[:-1])), data[-1])
-                        if callable(func):
-                            func()
+                        execute = kwargs[z]['exec']
+
+                        # ____if there's an dot in execute, then it's must be import otherwise is a locals____
+                        if '.' in execute:
+                            data = kwargs[z]['exec'].split('.')
+                            execute = getattr(importlib.import_module('.'.join(data[:-1])), data[-1])
+                        else:
+                            print(getattr('.', execute))
+                            execute = execute
+
+                        if callable(execute):
+                            execute()
         except IndexError:
             print(f'{INFO} \n')
             print(f'ver: {VERSION} \n')
