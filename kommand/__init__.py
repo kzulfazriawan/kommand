@@ -5,12 +5,11 @@ import json
 from colorama import init, Fore, Back, deinit, Style
 
 
-ROOT = os.path.dirname(sys.modules['__main__'].__file__)
-VERSION = '0.1-a'
-INFO = '''
+VERSION = '0.1a0'
+INFO = f'''
 ____THIZ IZ YOUR KOMMAND!____
-|||    |||     |||     ||||||     |||||| ||||||     ||||||      ||||      ||||     ||| ||||||     |||||||
-|||  |||     ||| |||   |||  ||| |||  ||| |||  ||| |||  |||     ||||||     |||||    ||| |||  |||   |||||||
+|||    |||     |||     ||||||     |||||| ||||||     ||||||      ||||      ||||     ||| ||||||      |||||
+|||  |||     ||| |||   |||  ||| |||  ||| |||  ||| |||  |||     ||||||     |||||    ||| |||  |||    |||||
 ||||||     |||     ||| |||    |||    ||| |||    |||    |||    |||  |||    ||| |||  ||| |||   |||   |||||
 ||||||     |||     ||| |||     |     ||| |||     |     |||   |||    |||   |||  ||| ||| |||   |||    |||
 |||  |||     ||| |||   |||           ||| |||           |||  ||||||||||||  |||   |||||| |||  |||  
@@ -25,16 +24,17 @@ def build():
     '''
     init()
     q = {
-        'name': f'{Fore.CYAN} Your app name: {Style.RESET_ALL}',
-        'version': f'{Fore.CYAN} Your app version: {Style.RESET_ALL}',
-        'command': f'{Back.CYAN} READY FOR COMMAND OFFICER! '
+        'name': f'{Fore.CYAN}Your app name>{Style.RESET_ALL} ',
+        'version': f'{Fore.CYAN}Your app version>{Style.RESET_ALL} ',
+        'command': f'{Back.CYAN} DONE! WAITING YOUR ORDER KOMMANDANT! '
     }
-    r = {'name': '', 'version': '', 'command': [{'your_command': dict(exec='MYFUNC', help='MYHELP')}]}
+    r = {'name': '', 'version': '', 'command': {'your_command': dict(exec='MYFUNC', help='MYHELP')}}
     for k, v in q.items():
         if k != 'command':
             r[k] = input(v)
         else:
-            with open(os.path.join(os.getcwd(), 'command.json'), 'w') as f:
+            name = r['name'] if 'name' in r else 'command'
+            with open(os.path.join(os.getcwd(), f'{name}.json'), 'w') as f:
                 json.dump(r, f, indent=4)
                 f.close()
             print(v)
@@ -42,12 +42,32 @@ def build():
 
 
 def control(**kwargs):
+    init()
+
     '''
     ____this is your kommand!. this function is created to manage arguments in CLI, just like apps that needs
     arguments in CLI to run some options or modules, for example: python kommand.py test more-test. the script
     will run function that registered on it from first command to second.____
     '''
     argv = sys.argv
+    a_name = INFO
+    a_version = VERSION
+    if 'json_file' in kwargs:
+        path_root = os.path.dirname(sys.modules['__main__'].__file__)
+        with open(os.path.join(path_root, kwargs['json_file']), 'r') as f:
+            d = json.load(f)
+            a_name = d['name'].upper()
+            a_version = d['version']
+            kwargs = d['command']
+            f.close()
+    else:
+        if 'name' in kwargs:
+            a_name = kwargs['name'].upper()
+            del kwargs['name']
+
+        if 'version' in kwargs:
+            a_version = kwargs['version']
+            del kwargs['version']
 
     # ____first I'll find the biggest string from kwargs, it'll be used as biggest edge of space in string____
     big_len = len(max([i for i in kwargs.keys()], key=len))
@@ -89,7 +109,8 @@ def control(**kwargs):
                         if callable(execute):
                             execute()
         except IndexError:
-            print(f'{INFO} \n')
-            print(f'ver: {VERSION} \n')
-            print('---------- \n')
+            print(f'{" ".join([Style.BRIGHT, Fore.CYAN, a_name, Style.RESET_ALL])}')
+            print(f'{Style.BRIGHT}{" ".join(["Ver:",Fore.BLUE, a_version, Style.RESET_ALL])} \n')
+            print(f'{Style.BRIGHT}----------{Style.RESET_ALL}\n')
             print(show_help)
+    deinit()
