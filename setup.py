@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="kommand", # Replace with your own username
-    version="0.1a",
+    version="0.2",
     author="kzulfazriawan",
     author_email="kzulfazriawan@gmail.com",
     description="This is your kommand, CLI interactive with python",

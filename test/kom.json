@@ -1,0 +1,17 @@
+{
+    "name": "kom",
+    "version": "0.1",
+    "description": "kom test",
+    "author": "kzulfazriawan",
+    "email": "kzulfazriawan@gmail.com",
+    "command": {
+        "a_call": {
+            "exec": "a_module.a_file.a_func",
+            "help": "MYHELP A"
+        },
+        "b_call": {
+            "exec": "a_module.b_file.b_func",
+            "help": "MYHELP B"
+        }
+    }
+}

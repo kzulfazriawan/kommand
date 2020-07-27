@@ -1,5 +1,8 @@
 ## Kommand!
 
+![GitHub](https://img.shields.io/github/license/kzulfazriawan/kommand?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/kzulfazriawan/kommand?style=for-the-badge)
+
 This is your kommand!, this package is used to interactively control your
 function in CL.
 
@@ -24,6 +27,9 @@ after that you just have to fill your command information in your json file.
 {
     "name": "myapp",
     "version": "0.1",
+    "description": "kom test",
+    "author": "kzulfazriawan",
+    "email": "kzulfazriawan@gmail.com",
     "command": {
         "your_command": {
             "exec": "module_to_exec",
@@ -64,4 +70,7 @@ python myscript.py your_command your_command2
 python myscript.py your_command2 your_command
 python myscript.py your_command2
 python myscript.py your_command
+
+# if use parameter
+python myscript.py your_command='p1,p2,...'
 ```
