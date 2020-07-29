@@ -5,7 +5,7 @@ import json
 from colorama import init, Fore, Back, deinit, Style
 
 
-VERSION = '0.2'
+VERSION = '0.3'
 NAME = 'KOMMAND!'
 DESCRIPTION = 'Control everything with your KOMMAND!'
 AUTHOR = 'kzulfazriawan'
@@ -66,6 +66,8 @@ def control(**kwargs):
             app_name = d['name']
             app_version = d['version']
             app_description = d['description']
+            app_author = d['author']
+            app_email = d['email']
             kwargs = d['command']
             f.close()
     else:
@@ -91,12 +93,12 @@ def control(**kwargs):
 
     # ____first I'll find the biggest string from kwargs, it'll be used as biggest edge of space in string____
     big_len = len(max([i for i in kwargs.keys()], key=len))
-    stdout = '*** --- ***\n'
+    stdout = '+---+---+---+---+\n'
     stdout += f'{Style.BRIGHT}|{" ".join([Fore.GREEN, app_name, Style.RESET_ALL])}'
-    stdout += f', {Style.DIM}{app_author} <{app_email}>\n'
-    stdout += f'{Style.BRIGHT}| version {" ".join([Fore.GREEN, app_version, Style.RESET_ALL])}\n'
-    stdout += f'|{" ".join([Fore.WHITE, app_description, Style.RESET_ALL])}\n'
-    stdout += '*** --- ***\n \n'
+    stdout += f'{Style.DIM}by {app_author} <{app_email}>\n'
+    stdout += f'{Style.BRIGHT}| version{" ".join([Fore.GREEN, app_version, Style.RESET_ALL])}\n'
+    stdout += f'{Style.BRIGHT}|{Style.RESET_ALL + Style.DIM} {" ".join([app_description, Style.RESET_ALL])}\n'
+    stdout += '+---+---+---+---+\n \n'
     stdout_help = ''
 
     for k, v in kwargs.items():

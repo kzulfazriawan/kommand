@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="kommand", # Replace with your own username
-    version="0.2",
+    name="kommand",
+    version="0.3",
     author="kzulfazriawan",
     author_email="kzulfazriawan@gmail.com",
     description="This is your kommand, CLI interactive with python",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/kzulfazriawan/kommand",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
