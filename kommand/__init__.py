@@ -93,12 +93,21 @@ def control(**kwargs):
 
     # ____first I'll find the biggest string from kwargs, it'll be used as biggest edge of space in string____
     big_len = len(max([i for i in kwargs.keys()], key=len))
-    stdout = '+---+---+---+---+\n'
-    stdout += f'{Style.BRIGHT}|{" ".join([Fore.GREEN, app_name, Style.RESET_ALL])}'
-    stdout += f'{Style.DIM}by {app_author} <{app_email}>\n'
-    stdout += f'{Style.BRIGHT}| version{" ".join([Fore.GREEN, app_version, Style.RESET_ALL])}\n'
-    stdout += f'{Style.BRIGHT}|{Style.RESET_ALL + Style.DIM} {" ".join([app_description, Style.RESET_ALL])}\n'
-    stdout += '+---+---+---+---+\n \n'
+
+    head = f'{Style.BRIGHT + app_name + Style.RESET_ALL} by {app_author} <{app_email}>'
+    body = f'{Style.BRIGHT}Version {app_version + Style.RESET_ALL}'
+    foot = Style.DIM + app_description + Style.RESET_ALL
+
+    big_head = len(head) if len(head) > len(foot) else len(foot)
+
+    border = f"+{''.join(['-' for z in range(0, big_head)])}+\n"
+
+    stdout = Fore.GREEN + border
+    stdout += f'|{head + "".join([" " for y in range(0, big_head - len(head))])}|\n'
+    stdout += f'|{body + "".join([" " for y in range(0, big_head - len(body))])}|\n'
+    stdout += f'|{foot + "".join([" " for y in range(0, big_head - len(foot))])}|\n'
+    stdout += border + Fore.RESET
+
     stdout_help = ''
 
     for k, v in kwargs.items():
@@ -117,7 +126,7 @@ def control(**kwargs):
         del argv[0]
 
         # ____if help is show help, otherwise run the function that need to be run____
-        stdout_help = f'Usage example: "python myscript.py [Options]"\nOptions: \n---\n{stdout_help}'
+        stdout_help = f'Usage: [Options]="[Argument]" \nOptions: \n---\n{stdout_help}'
         try:
             if argv[0] == 'help':
                 sys.stdout.write(stdout + stdout_help)
