@@ -5,9 +5,9 @@ import json
 from colorama import init, Fore, Back, deinit, Style
 
 
-VERSION = '0.3'
-NAME = 'KOMMAND!'
-DESCRIPTION = 'Control everything with your KOMMAND!'
+VERSION = '0.4'
+NAME = 'Kommand'
+DESCRIPTION = 'Command everything with kommand'
 AUTHOR = 'kzulfazriawan'
 EMAIL = 'kzulfazriawan@gmail.com'
 
@@ -118,7 +118,7 @@ def control(**kwargs):
             space = ''.join([' ' for x in range(0, big_len - len(k))])
             h_key = f'{k}{space}'
 
-        stdout_help += f'{h_key} {v["help"]}\n'
+        stdout_help += f'{Style.BRIGHT + h_key + Style.RESET_ALL} {v["help"]}\n'
 
     if isinstance(argv, list):
         # ____delete argv[0] because it's name file____
