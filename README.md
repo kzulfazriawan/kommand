@@ -30,15 +30,13 @@ after that you just have to fill your command information in your json file.
     "description": "kom test",
     "author": "kzulfazriawan",
     "email": "kzulfazriawan@gmail.com",
-    "command": {
-        "your_command": {
-            "exec": "module_to_exec",
-            "help": "help information"
-        },
-        "your_command2": {
-            "exec": "module_to_exec2",
-            "help": "help information2"
-        }
+    "your_command": {
+        "exec": "module_to_exec",
+        "help": "help information"
+    },
+    "your_command2": {
+        "exec": "module_to_exec2",
+        "help": "help information2"
     }
 }
 ```

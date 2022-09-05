@@ -1,0 +1,10 @@
+{
+    "name": "asdf",
+    "version": "asdf",
+    "author": "sdf",
+    "email": "asdf",
+    "your_command": {
+        "exec": "mypackage.mymodule.myfunc",
+        "help": "my help description"
+    }
+}
